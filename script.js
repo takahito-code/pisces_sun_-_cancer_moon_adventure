@@ -1,141 +1,64 @@
-let dreamPoints = 0;
-let realityPoints = 0;
-let progressCount = 0;
-
-const story = document.getElementById("story");
-const choices = document.querySelectorAll(".choice");
-const score = document.getElementById("score");
-const progressBar = document.querySelectorAll(".progress-segment");
-
-const specialEvent = document.getElementById("special-event");
-const eventTitle = document.getElementById("event-title");
-const eventDescription = document.getElementById("event-description");
-const eventChoice1 = document.getElementById("event-choice-1");
-const eventChoice2 = document.getElementById("event-choice-2");
-
-const ending = document.getElementById("ending");
+let currentStage = 0;
+const storyElement = document.getElementById("story");
+const choicesContainer = document.getElementById("choices");
+const progressSegments = document.querySelectorAll(".progress-segment");
+const endingContainer = document.getElementById("ending");
 const endingTitle = document.getElementById("ending-title");
 const endingDescription = document.getElementById("ending-description");
-const restartGame = document.getElementById("restart-game");
+const restartButton = document.getElementById("restart-game");
 
+const stages = [
+  { story: "Stage 1: You meet someone who feels like your destiny. But soon, he drifts away.", choices: ["Chase him", "Let him go"], backgroundColor: "#1e293b" },
+  { story: "Stage 2: The Moon asks, 'What is it you truly desire?'", choices: ["Follow emotions", "Seek stability"], backgroundColor: "#2b3945" },
+  { story: "Stage 3: Financial struggles hit hard. Your dreams feel out of reach.", choices: ["Work harder", "Rely on others"], backgroundColor: "#3d4a5d" },
+  { story: "Stage 4: Neptune tempts you to escape reality. Do you accept?", choices: ["Embrace the dream", "Ground yourself"], backgroundColor: "#4a5568" },
+  { story: "Stage 5: A storm brews. Do you press on?", choices: ["Seek shelter", "Face the storm"], backgroundColor: "#2a4365" },
+  { story: "Stage 6: You face betrayal from a close ally.", choices: ["Confront them", "Forgive and move on"], backgroundColor: "#1e293b" },
+  { story: "Stage 7: The Moon offers guidance. Do you trust it?", choices: ["Yes", "No"], backgroundColor: "#2b3945" },
+  { story: "Stage 8: A fleeting glimpse of your lost love reignites your hope.", choices: ["Chase them", "Let it go"], backgroundColor: "#3d4a5d" },
+  { story: "Stage 9: Your inner self questions your purpose.", choices: ["Reaffirm your goals", "Reconsider everything"], backgroundColor: "#4a5568" },
+  { story: "Stage 10: You find a key to your destiny.", choices: ["Use it", "Discard it"], backgroundColor: "#2a4365" },
+  { story: "Stage 11: The final choice awaits. Will you pray for guidance or trust yourself?", choices: ["Pray", "Trust yourself"], backgroundColor: "#1e293b" },
+];
 
-choices.forEach((choice) => {
-    choice.addEventListener("click", () => {
-        const userChoice = choice.dataset.choice;
+function updateStage(stageIndex) {
+  if (stageIndex >= stages.length) {
+    displayEnding();
+    return;
+  }
 
-        if (userChoice === "dream") {
-            dreamPoints += Math.floor(Math.random() * 3 + 1);
-            updateStory("You followed the stars, embracing your dreams.");
-        } else if (userChoice === "reality") {
-            realityPoints += Math.floor(Math.random() * 3 + 1);
-            updateStory("You explored the shoreline, grounding yourself in reality.");
-        }
+  const currentStageData = stages[stageIndex];
+  storyElement.textContent = currentStageData.story;
+  document.body.style.backgroundColor = currentStageData.backgroundColor;
 
-        updateProgress();
-        updateScore();
-
-        if (progressCount === 2) {
-            triggerPlanetEvent("Venus");
-        } else if (progressCount === 5) {
-            triggerPlanetEvent("Mars");
-        }
-
-        if (progressCount === progressBar.length) {
-            displayEnding();
-        }
-    });
-});
-
-function updateProgress() {
-    if (progressCount < progressBar.length) {
-        progressBar[progressCount].classList.add("active");
-        if (progressCount > 0) {
-            progressBar[progressCount - 1].classList.remove("active");
-            progressBar[progressCount - 1].classList.add("completed");
-        }
-        progressCount++;
-    }
+  choicesContainer.classList.remove("hidden");
+  const buttons = choicesContainer.querySelectorAll("button");
+  buttons[0].textContent = currentStageData.choices[0];
+  buttons[1].textContent = currentStageData.choices[1];
 }
-
-function updateScore() {
-    const harmonyLevel = Math.min(
-        ((dreamPoints + realityPoints) / (progressBar.length * 3)) * 100,
-        100
-    ).toFixed(0);
-    score.textContent = `Dream Points: ${dreamPoints} | Reality Points: ${realityPoints} | Harmony Level: ${harmonyLevel}%`;
-}
-
-function triggerPlanetEvent(planet) {
-    specialEvent.classList.remove("hidden");
-
-    if (planet === "Venus") {
-        eventTitle.textContent = "Venus Offers Guidance";
-        eventDescription.textContent = 
-        "Venus invites you to embrace harmony. Will you follow her advice?";
-        eventChoice1.textContent = "Accept Venus' Guidance";
-        eventChoice2.textContent = "Decline and Proceed Alone";
-        eventChoice1.onclick = () => {
-            dreamPoints += 3;
-            specialEvent.classList.add("hidden");
-            updateScore();
-        };
-        eventChoice2.onclick = () => {
-            realityPoints += 2;
-            specialEvent.classList.add("hidden");
-            updateProgress();
-        };
-    } else if (planet === "Mars") {
-        eventTitle.textContent = "Mars Challenges You";
-        eventDescription.textContent = 
-        "Mars demands bold action. Will you take the risk?";
-        eventChoice1.textContent = "Take the Risk";
-        eventChoice2.textContent = "Play It Safe";
-        eventChoice1.onclick = () => {
-            dreamPoints += 5;
-            specialEvent.classList.add("hidden");
-            updateScore();
-        };
-        eventChoice2.onclick = () => {
-            realityPoints += 4;
-            specialEvent.classList.add("hidden");
-            updateProgress();
-        }; 
-    }
-
-}
-
 
 function displayEnding() {
-    const harmonyLevel = ((dreamPoints + realityPoints) / (progressBar.length * 3)) * 100;
+  choicesContainer.classList.add("hidden");
+  endingContainer.classList.remove("hidden");
 
-    ending.classList.remove("hidden");
-    if(dreamPoints > realityPoints) {
-        endingTitle.textContent = "Lost in Dreams";
-        endingDescription.textContent = "You followed your dreams, but reality faded away.";
-    } else if (realityPoints > dreamPoints) {
-        endingTitle.textContent = "Grounded in Reality";
-        endingDescription.textContent =  "You chose stability but missed the magic of dreams.";
-    } else {
-        endingTitle.textContent = "Harmony Achieved";
-        endingDescription.textContent =  "You found the perfect balance between dreams and reality.";
-        const specialMessage = document.createElement("p");
-        specialMessage.textContent = "Venus and Mars congratulate you for your wisdom!";
-        ending.appendChild(specialMessage);
-    }
-    ending.classList.remove("hidden");
-
-    restartGame.onclick = () => {
-     location.reload();
-    };
+  endingTitle.textContent = "Your Journey Ends";
+  endingDescription.textContent = "You have reached the end of your journey. Reflect on your choices.";
 }
 
-function updateStory(message) {
-    story.textContent = message;
-}
+choicesContainer.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("choice")) return;
 
-function updateBackground() {
-    const ratio = dreamPoints / (dreamPoints + realityPoints || 1);
-    const color = ratio > 0.5 ? "#1e90ff" : "#ff6347";
-    document.body.style.transition = "background-color 0.5s ease";
-    document.body.style.background = color;
-}
+  currentStage++;
+  progressSegments[currentStage - 1].classList.add("completed");
+  updateStage(currentStage);
+});
+
+restartButton.addEventListener("click", () => {
+  currentStage = 0;
+  endingContainer.classList.add("hidden");
+  progressSegments.forEach((segment) => segment.classList.remove("completed"));
+  updateStage(0);
+});
+
+// Initialize the first stage
+updateStage(0);

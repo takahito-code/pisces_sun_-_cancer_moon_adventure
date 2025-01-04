@@ -1,45 +1,41 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pisces Sun & Cancer Moon Adventure</title>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div id="game">
-            <h1>Pisces Sun & Cancer Moon Adventure</h1>
-            <p>Welcome, adventurer! Embark on a journey where your Pisces Sun inspires dreams, and your Cancer Moon seeks emotional security.</p>
-            <div id="story">Your journey begins under the guidance of the stars...</div>
-             <div id="choices">
-                <button class="choice" data-choice="dream">Follow the stars</button>
-                <button class="choice" data-choice="reality">Explore the shoreline</button>
-             </div>
-             <div id="progress-bar-container">
-                <div id="progress-bar">
-                    <div class="progress-segment"></div>
-                    <div class="progress-segment"></div>
-                    <div class="progress-segment"></div>
-                    <div class="progress-segment"></div>
-                    <div class="progress-segment"></div>
-                    <div class="progress-segment"></div>
-                    <div class="progress-segment"></div>
-                </div>
-             </div>
-             <div id="score">Dream Points: 0 | Reality Points: 0 | Harmony Level 0%</div>
-        </div>
-        <div id="special-event" class="hidden">
-            <h2 id="event-title"></h2>
-            <p id="event-description"></p>
-            <button id="event-choice-1" class="hidden">Option 1</button>
-            <button id="event-choice-2" class="hidden">Option 2</button>
-        </div>
-        <div id="ending" class="hidden">
-            <h2 id="ending-title"></h2>
-            <p id="ending-description"></p>
-            <button id="restart-game">Play Again</button>
-        </div>
-        <script src="script.js"></script>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pisces Sun & Cancer Moon Adventure</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game">
+    <h1>Pisces Sun & Cancer Moon Adventure</h1>
+    <p id="story">Your journey begins under the guidance of the stars...</p>
+    <div id="choices" class="hidden">
+      <button class="choice" data-choice="1">Option 1</button>
+      <button class="choice" data-choice="2">Option 2</button>
+    </div>
+    <div id="progress-bar-container">
+      <div id="progress-bar">
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+      </div>
+    </div>
+  </div>
+  <div id="ending" class="hidden">
+    <h2 id="ending-title"></h2>
+    <p id="ending-description"></p>
+    <button id="restart-game">Play Again</button>
+  </div>
+  <script src="script.js"></script>
+</body>
 </html>
