@@ -1,0 +1,101 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    overflow: hidden;
+}
+
+#game {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(0,0,0,0.8);
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.3);
+}
+
+button {
+    background-color: #6c5ce7;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+button:hover {
+    background-color: #a29bfe;
+    transform: scale(1.05);
+}
+
+.hidden {
+    display: none;
+}
+
+#progress-bar-container {
+    margin: 20px auto;
+    width: 80%;
+    height: 10px;
+    background: #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.progress-segment {
+    flex: 1;
+    background: #2c3e50;
+    transition: background 0.3s ease-in-out;
+}
+
+.progress-segment.active {
+    background: #f1c40f;
+}
+
+.progress-segment.completed {
+    background: #27ae60;
+}
+
+#special-event {
+    width: 70%;
+    height: auto;
+    padding: 15px;
+    max-width: 500px;
+    overflow: auto;
+}
+
+#special-event, #ending {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.9);
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.5);
+    text-align: center;
+}
+
+#special-event button, #ending button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #5c9ead;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+#special-event button:hover, #ending button:hover {
+background-color: #78c0e0;
+}
+
