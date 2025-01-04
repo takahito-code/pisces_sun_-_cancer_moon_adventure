@@ -11,17 +11,17 @@ const endingDescription = document.getElementById("ending-description");
 const restartButton = document.getElementById("restart-game");
 
 const stages = [
-  { story: "Stage 1: You meet someone who feels like your destiny. But soon, he drifts away.", choices: ["Chase him", "Let him go"], backgroundColor: "#1e293b" },
-  { story: "Stage 2: The Moon asks, 'What is it you truly desire?'", choices: ["Follow emotions", "Seek stability"], backgroundColor: "#2b3945" },
-  { story: "Stage 3: Financial struggles hit hard. Your dreams feel out of reach.", choices: ["Work harder", "Rely on others"], backgroundColor: "#3d4a5d" },
-  { story: "Stage 4: Neptune tempts you to escape reality. Do you accept?", choices: ["Embrace the dream", "Ground yourself"], backgroundColor: "#4a5568" },
-  { story: "Stage 5: A storm brews. Do you press on?", choices: ["Seek shelter", "Face the storm"], backgroundColor: "#2a4365" },
-  { story: "Stage 6: You face betrayal from a close ally.", choices: ["Confront them", "Forgive and move on"], backgroundColor: "#1e293b" },
-  { story: "Stage 7: The Moon offers guidance. Do you trust it?", choices: ["Yes", "No"], backgroundColor: "#2b3945" },
-  { story: "Stage 8: A fleeting glimpse of your lost love reignites your hope.", choices: ["Chase him", "Let it go"], backgroundColor: "#3d4a5d" },
-  { story: "Stage 9: Your inner self questions your purpose.", choices: ["Reaffirm your goals", "Reconsider everything"], backgroundColor: "#4a5568" },
-  { story: "Stage 10: You find a key to your destiny.", choices: ["Use it", "Discard it"], backgroundColor: "#2a4365" },
-  { story: "Stage 11: The final choice awaits. Will you pray for guidance or trust yourself?", choices: ["Pray", "Trust yourself"], backgroundColor: "#1e293b" },
+  { story: "Stage 1: You meet someone who feels like your destiny. But soon, he drifts away.", choices: ["Chase him", "Let him go"], dream: 1, reality: 2, backgroundColor: "#1e293b" },
+  { story: "Stage 2: The Moon asks, 'What is it you truly desire?'", choices: ["Follow emotions", "Seek stability"], dream: 1, reality: 2, backgroundColor: "#2b3945" },
+  { story: "Stage 3: Financial struggles hit hard. Your dreams feel out of reach.", choices: ["Work harder", "Rely on others"], dream: 1, reality: 2, backgroundColor: "#3d4a5d" },
+  { story: "Stage 4: Neptune tempts you to escape reality. Do you accept?", choices: ["Embrace the dream", "Ground yourself"], dream: 1, reality: 2, backgroundColor: "#4a5568" },
+  { story: "Stage 5: A storm brews. Do you press on?", choices: ["Seek shelter", "Face the storm"], dream: 2, reality: 1, backgroundColor: "#2a4365" },
+  { story: "Stage 6: You face betrayal from a close ally.", choices: ["Confront them", "Forgive and move on"], dream: 2, reality: 1, backgroundColor: "#1e293b" },
+  { story: "Stage 7: The Moon offers guidance. Do you trust it?", choices: ["Yes", "No"], dream: 1, reality: 2, backgroundColor: "#2b3945" },
+  { story: "Stage 8: A fleeting glimpse of your lost love reignites your hope.", choices: ["Chase him", "Let it go"], dream: 1, reality: 2, backgroundColor: "#3d4a5d" },
+  { story: "Stage 9: Your inner self questions your purpose.", choices: ["Reaffirm your goals", "Reconsider everything"], dream: 1, reality: 2, backgroundColor: "#4a5568" },
+  { story: "Stage 10: You find a key to your destiny.", choices: ["Use it", "Discard it"], dream: 1, reality: 2, backgroundColor: "#2a4365" },
+  { story: "Stage 11: The final choice awaits. Will you pray for guidance or trust yourself?", choices: ["Pray", "Trust yourself"], dream: 0, reality: 0, backgroundColor: "#1e293b" },
 ];
 
 function updateStage(stageIndex) {
@@ -45,6 +45,7 @@ function displayEnding() {
   endingContainer.classList.remove("hidden");
 
   if (dreamPoints > realityPoints) {
+    // 夢に偏ったエンディング
     endingTitle.textContent = "Lost in Dreams";
     endingDescription.innerHTML = `
       You chased your dreams relentlessly, diving deeper into the infinite cosmos.<br><br>
@@ -52,17 +53,21 @@ function displayEnding() {
     `;
     document.body.classList.add("lost-in-dreams");
   } else if (realityPoints > dreamPoints) {
+    // 現実に偏ったエンディング
     endingTitle.textContent = "Grounded in Reality";
     endingDescription.innerHTML = `
-      You built a stable life, but lost the magic of your dreams.<br><br>
-      Stability is yours, but the stars seem far away.
+      You chose stability, building a life rooted in the tangible world.<br><br>
+      But the stars that once guided you became distant whispers.
     `;
     document.body.classList.add("grounded-in-reality");
   } else {
+    // ハーモニーのエンディング
     endingTitle.textContent = "Harmony Achieved";
     endingDescription.innerHTML = `
-      You have found balance between dreams and reality.<br><br>
-      The love you thought lost has returned, and your life is now in perfect harmony.
+      After countless trials, you have found your path.<br><br>
+      The love you thought was lost returns, and together you create a beautiful family.<br><br>
+      Your dreams and reality now coexist in perfect harmony.<br><br>
+      May your journey continue to be filled with love, hope, and balance.
     `;
     document.body.classList.add("harmony-achieved");
   }
@@ -72,9 +77,11 @@ choicesContainer.addEventListener("click", (e) => {
   if (!e.target.classList.contains("choice")) return;
 
   const selectedChoice = e.target.dataset.choice;
+
+  // 最終ステージではポイントを加算しない
   if (currentStage < 10) {
-    if (selectedChoice === "1") dreamPoints += Math.floor(Math.random() * 3 + 1);
-    if (selectedChoice === "2") realityPoints += Math.floor(Math.random() * 2 + 1);
+    if (selectedChoice === "1") dreamPoints += stages[currentStage].dream;
+    if (selectedChoice === "2") realityPoints += stages[currentStage].reality;
   }
 
   progressSegments[currentStage].classList.add("completed");
@@ -91,4 +98,5 @@ restartButton.addEventListener("click", () => {
   updateStage(0);
 });
 
+// 初期ステージをセット
 updateStage(0);
